@@ -44,7 +44,7 @@ namespace IdentityServer4.Endpoints.Results
 
         private void AddCspHeaders(HttpContext context)
         {
-            context.Response.AddScriptCspHeaders(_options.Csp, "sha256-bVyFTw2sODzxD0smnBHKVczetxWV9Hs75DdK8+YttZo=");
+            context.Response.AddScriptCspHeaders(_options.Csp, "sha256-LRTQQb2kvrIyqTZIDSzC0xeHlhdRykEv8ZilZnZtN50=");
         }
         private string GetHtml(string cookieName)
         {
