@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityServer4.Extensions;
 using IdentityServer4.Hosting;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.Http;
@@ -34,14 +35,21 @@ namespace IdentityServer4.Endpoints.Results
         public int? MaxAge { get; }
 
         /// <summary>
+        /// The HTTP content type
+        /// </summary>
+        public string ContentType { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="JsonWebKeysResult" /> class.
         /// </summary>
         /// <param name="webKeys">The web keys.</param>
         /// <param name="maxAge">The maximum age.</param>
-        public JsonWebKeysResult(IEnumerable<JsonWebKey> webKeys, int? maxAge)
+        /// <param name="contentType">The HTTP content type</param>
+        public JsonWebKeysResult(IEnumerable<JsonWebKey> webKeys, int? maxAge, string contentType)
         {
             WebKeys = webKeys ?? throw new ArgumentNullException(nameof(webKeys));
             MaxAge = maxAge;
+            ContentType = contentType;
         }
 
         /// <summary>
@@ -56,7 +64,7 @@ namespace IdentityServer4.Endpoints.Results
                 context.Response.SetCache(MaxAge.Value, "Origin");
             }
 
-            return context.Response.WriteJsonAsync(new { keys = WebKeys }, "application/jwk-set+json; charset=UTF-8");
+            return context.Response.WriteJsonAsync(new { keys = WebKeys }, $"{ContentType}; charset=UTF-8");
         }
     }
 }
